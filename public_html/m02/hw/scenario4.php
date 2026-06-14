@@ -37,10 +37,27 @@ function transformText($arr, $arrayNumber) {
         // UCID: jmt86
         // Date: 2026-06-13
         // Plan: I will clean each phrase by removing special characters, trimming extra spaces, converting it to title case, and then finding the middle characters from the cleaned phrase.
-        // Step 1: sketch out plan using comments (include ucid and date)
-        // Step 2: Add/commit your outline of comments (required for full credit)
-        // Step 3: Add code to solve the problem (add/commit as needed)
+        
+        $cleanedPhrase = preg_replace("/[^a-zA-Z0-9 ]/", "", $text);
+        $cleanedPhrase = preg_replace("/\s+/", " ", $cleanedPhrase);
+        $cleanedPhrase = trim($cleanedPhrase);
+        $placeholderForModifiedPhrase = ucwords(strtolower($cleanedPhrase));
 
+    $length = strlen($cleanedPhrase);
+
+    if ($length <= 2) {
+        $placeholderForMiddleCharacters = "Not enough characters";
+    } else {
+        $middleSection = substr($cleanedPhrase, 1, $length - 2);
+        $middleLength = strlen($middleSection);
+
+        if ($middleLength <= 3) {
+            $placeholderForMiddleCharacters = $middleSection;
+        } else {
+            $start = floor(($middleLength - 3) / 2);
+            $placeholderForMiddleCharacters = substr($middleSection, $start, 3);
+        }
+        }
         // End Solution Edits
     
         printScenario4Transformations($index, $placeholderForModifiedPhrase, $placeholderForMiddleCharacters);
