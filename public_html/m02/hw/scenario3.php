@@ -33,6 +33,13 @@ function bePositive($arr, $arrayNumber)
     // UCID : jmt86
     // Date : 2026-06-13
     // Plan : I will loop through each original value, make the value positive, and then store it back in the output array while keeping the original data type.
+    foreach ($arr as $index => $value) {
+    if (is_string($value)) {
+        $output[$index] = ltrim($value, "-");
+    } else {
+        $output[$index] = abs($value);
+    }
+}
     // End Solution Edits
     printScenario3Output($output);
     echo "</div>";
