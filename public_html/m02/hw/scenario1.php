@@ -29,9 +29,18 @@ function printOdds($arr, $arrayNumber)
     // Start Solution Edits
     // UCID: jmt86
     // Date: 2026-06-13
-    // Plan: I will loop through each value in the array, check if the calue is odd, then store only the odd values, and then join them with commas so there are no leading or trailinmg commas.
+    // Plan: I will loop through each value in the array, check if the value is odd, then store only the odd values, and then join them with commas so there are no leading or trailimg commas.
     // set solution to $output_result variable
    
+    $oddValues = [];
+
+    foreach ($arr as $value) {
+            if ($value % 2 != 0) {
+                $oddValues[] = $value;
+            }
+    }
+
+    $output_result = implode(", ", $oddValues);
     // End Solution Edits
     printScenario1Output($output_result);
     echo "</div>";
