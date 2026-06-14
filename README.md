@@ -2,11 +2,11 @@
 
 ## Student Information
 
-- Name: 
+- Name: Jason Towfeek
 - Course: IT202
-- Semester: 
-- Year:
-- Instructor: 
+- Semester: Summer 2026
+- Year: 2026
+- Instructor: Matt Togel
 
 ## About This Repository
 
