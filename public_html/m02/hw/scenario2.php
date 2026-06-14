@@ -34,10 +34,12 @@ function sumValues($arr, $arrayNumber)
     // Date : 2026-06-13
     // Plan : I will start with a total of zero, loop through the array, add each value into the total, and the format the final total to exactly two decimal places.
     // Solve Challenge 1 here: Sum all values
-
+    foreach ($arr as $value) {
+        $total += $value;
+    }
 
     // Solve Challenge 2 here: Format to 2 decimal places
-    $modifiedTotal = "?";
+    $modifiedTotal = number_format($total, 2, ".", "");
 
     // End Solution Edits
     printScenario2Output($total, $modifiedTotal);
