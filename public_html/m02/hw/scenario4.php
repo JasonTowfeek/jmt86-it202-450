@@ -3,7 +3,7 @@
 // @ts-nocheck
 require_once "base.php";
 
-$ucid = "mt85"; // <-- set your ucid
+$ucid = "jmt86"; // <-- set your ucid
 
 // Don't edit the arrays below, they are used to test your code
 $array1 = ["hello world!", "php programming", "special@#$%^&characters", "numbers 123 456", "mIxEd CaSe InPut!"];
@@ -34,6 +34,9 @@ function transformText($arr, $arrayNumber) {
     $placeholderForMiddleCharacters = "";
     foreach ($arr as $index => $text) {
         // Start Solution Edits
+        // UCID: jmt86
+        // Date: 2026-06-13
+        // Plan: I will clean each phrase by removing special characters, trimming extra spaces, converting it to title case, and then finding the middle characters from the cleaned phrase.
         // Step 1: sketch out plan using comments (include ucid and date)
         // Step 2: Add/commit your outline of comments (required for full credit)
         // Step 3: Add code to solve the problem (add/commit as needed)
