@@ -50,9 +50,7 @@ Notes:
             <li><a href="challenge3.html">Challenge 3</a></li>
         </ul>
     </nav>
-    <!-- Edit your UCID here -->
-    <header>Header Section (mt85)</header>
-    <!-- Don't make any other edits to the HTML -->
+    <header>Header Section (jmt86)</header>
     <div class="container">
         <aside id="left-sidebar">
             <button>&gt;</button>
@@ -66,7 +64,6 @@ Notes:
         <main class="content">
             <h2>Lorem Ipsum</h2>
             <section>
-                <!-- Challenge Requirements -->
                 <h3>Requirements</h3>
                 <ul>
                     <li>Expected CSS behavior:
@@ -118,17 +115,123 @@ Notes:
     <script src="utils.js"></script>
 
     <script>
-        /*
-            Add UCID/date and planning comments before your JavaScript solution.
-            Solve the sidebar toggle logic here by attaching appropriate event listeners.
-        */
+        /* =======================================================
+           UCID / PLANNING COMMENTS (JAVASCRIPT)
+           Name: jmt86
+           Date: June 22, 2026
+           Approach:
+           1. Select left and right sidebar DOM container nodes.
+           2. Extract the button triggers inside each respective container.
+           3. Attach click event listeners that toggle a ".collapsed" class.
+           4. Programmatically update button arrows to match open/closed states.
+           ======================================================= */
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const leftSidebar = document.getElementById("left-sidebar");
+            const rightSidebar = document.getElementById("right-sidebar");
+            
+            const leftBtn = leftSidebar.querySelector("button");
+            const rightBtn = rightSidebar.querySelector("button");
+
+            leftBtn.addEventListener("click", () => {
+                leftSidebar.classList.toggle("collapsed");
+                // Flip arrow visual indication
+                leftBtn.innerHTML = leftSidebar.classList.contains("collapsed") ? "&lt;" : "&gt;";
+            });
+
+            rightBtn.addEventListener("click", () => {
+                rightSidebar.classList.toggle("collapsed");
+                // Flip arrow visual indication
+                rightBtn.innerHTML = rightSidebar.classList.contains("collapsed") ? "&gt;" : "&lt;";
+            });
+        });
     </script>
 
     <style>
-        /*
-            Add UCID/date and planning comments before your CSS solution.
-            Write Challenge 2 layout CSS here; do not override anything in styles.css.
-        */
+        /* =======================================================
+           UCID / PLANNING COMMENTS (CSS)
+           Name: jmt86
+           Date: June 22, 2026
+           Approach:
+           1. Turn body into a vertical layout grid container filling 100vh viewport space.
+           2. Turn the inner layout structural .container wrapper into a horizontal flexbox row.
+           3. Fix sidebars to width: 15% when open, shifting contents to overflow: visible.
+           4. Apply width: 0 and overflow: hidden via a utility .collapsed helper rule.
+           5. Use position: absolute on buttons so they poke out cleanly when structural width collapses.
+           ======================================================= */
+
+        body.challenge2 {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        nav, header {
+            flex-shrink: 0;
+        }
+
+        .container {
+            display: flex;
+            flex-grow: 1;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        aside {
+            width: 15%;
+            flex-shrink: 0;
+            position: relative; /* Allows nested button tracking pin points */
+            transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-sizing: border-box;
+        }
+
+        /* Enforce absolute closure while saving button accessibility */
+        aside.collapsed {
+            width: 0 !important;
+        }
+
+        /* Keep list elements clean from overlapping during narrow animations */
+        aside ul {
+            width: 100%;
+            min-width: 120px; 
+            box-sizing: border-box;
+            transition: opacity 0.2s ease;
+        }
+
+        aside.collapsed ul {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* Absolute placement to keep toggle triggers accessible outside zero-width frames */
+        #left-sidebar button {
+            position: absolute;
+            right: -30px;
+            top: 10px;
+            z-index: 10;
+            width: 30px;
+            height: 30px;
+        }
+
+        #right-sidebar button {
+            position: absolute;
+            left: -30px;
+            top: 10px;
+            z-index: 10;
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Central workspace element scales up dynamically to claim structural vacancy */
+        main.content {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
     </style>
 </body>
 
