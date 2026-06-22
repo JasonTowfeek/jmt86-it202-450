@@ -42,9 +42,7 @@ Notes:
             <li><a href="challenge3.html">Challenge 3</a></li>
         </ul>
     </nav>
-    <!-- Edit your UCID here -->
-    <header>Header Section (mt85)</header>
-    <!-- Don't make any other edits to the HTML -->
+    <header>Header Section (jmt86)</header>
     <main>
         <div class="content">
             <h2>Lorem Ipsum</h2>
@@ -75,7 +73,7 @@ Notes:
                 tortor vel nunc lobortis dapibus in id dolor. Morbi elementum ligula nec dictum fringilla. Sed sed
                 sagittis diam, et consequat lacus. Suspendisse non dui mauris. Vivamus molestie mattis libero, nec
                 placerat dolor imperdiet vitae. Etiam dapibus orci lacus, eu tristique ipsum sagittis in. Fusce
-                porttitor mi non consectetur dictum.</p>
+                portttor mi non consectetur dictum.</p>
         </div>
     </main>
 
@@ -83,11 +81,42 @@ Notes:
     <script src="utils.js"></script>
 
     <style>
-        /*
-            Add UCID/date and planning comments before your CSS solution.
-            Write Challenge 1 layout CSS here; do not override anything in styles.css.
-        */
-    </style>
+
+        /* =======================================================
+           UCID / PLANNING COMMENTS
+           Name: jmt86
+           Date: June 22, 2026
+           Approach: 
+           1. Set the body height to exactly 100vh using flexbox 
+              layout directed in a column configuration.
+           2. Apply overflow: hidden to the body container to 
+              eliminate the global system browser scrollbar.
+           3. Allow the header, nav, and footer wrappers to hold 
+              their exact structural sizes without shrinking down.
+           4. Enforce flex-grow: 1 on the main element container 
+              and set overflow-y: auto to completely isolate 
+              scrolling behavior within the content box.
+           ======================================================= */
+
+           body.challenge1 {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+           }
+
+           nav, header, footer {
+            flex-shrink: 0;
+           }
+
+           main {
+            flex-grow: 1;
+            overflow-y: auto;
+            box-sizing: border-box;
+           }
+         </style>
 </body>
 
-</html>
+    </html>
