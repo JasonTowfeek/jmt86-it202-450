@@ -18,7 +18,9 @@ if (empty($diff)) {
     // When not valid, provide a user-friendly message of what specifically was wrong and set $is_valid to false.
     // Assigned should check for "self" if a valid format/value isn't provided.
     // Start validations
-    // can edit here
+    // UCID: jmt86
+    // Date: 06/27/2026
+    // Plan: Validate that task is not empty, due is a valid date, and assigned is not empty before allowing the insert.
     // End validations
 
     
@@ -59,14 +61,25 @@ if (empty($diff)) {
     <section>
         <h2>Create ToDo </h2>
         <form>
-            <!-- design the form with proper labels and input fields with the correct types based on the SQL table.
-             Wrap each label/input pair in a div tag.
-             For "Assigned" ensure the default value is "self". -->
-          
-            <div>
-                <input type="submit" />
-            </div>
-        </form>
+    <div>
+        <label for="task">Task</label>
+        <input type="text" id="task" name="task" required>
+    </div>
+
+    <div>
+        <label for="due">Due Date</label>
+        <input type="date" id="due" name="due" required>
+    </div>
+,
+    <div>
+        <label for="assigned">Assigned</label>
+        <input type="text" id="assigned" name="assigned" value="self" required>
+    </div>
+
+    <div>
+        <input type="submit" value="Create Todo">
+    </div>
+</form>
     </section>
 </body>
 
