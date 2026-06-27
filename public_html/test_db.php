@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . "/../lib/db.php");
 
-$query = "SELECT 'It worked!' AS `From Database`";
+$query = 'SELECT \'It worked!\' AS "From Database"';
 
 try {
 	$db = getDB(); // available from lib/db.php

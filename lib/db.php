@@ -15,8 +15,7 @@ function getDB()
             require_once(__DIR__ . "/config.php"); //pull in our credentials
             // DSN (Data Source Name) tells PDO what DB to connect to.
             // utf8mb4 supports full Unicode (including emoji and many symbols).
-            $connection_string = "mysql:host=$dbhost;dbname=$dbdatabase;charset=utf8mb4";
-            // Create the PDO connection.
+            $connection_string = "pgsql:host=$dbhost;port=5432;dbname=$dbdatabase;sslmode=require";            // Create the PDO connection.
             // ERRMODE_EXCEPTION: DB problems throw exceptions we can catch.
             // In PHP 8+, this is typically the default, but setting it explicitly is clearer.
             // FETCH_ASSOC: query rows come back as column-name arrays.
