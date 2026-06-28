@@ -20,7 +20,31 @@ if (empty($diff)) {
     // Start validations
     // UCID: jmt86
     // Date: 06/27/2026
-    // Plan: Validate that task is not empty, due is a valid date, and assigned is not empty before allowing the insert.
+    // Plan: Validate task, due date, and assigned before inserting the todo.
+
+    if (empty(trim($task))) {
+        echo "Task cannot be empty<br>";
+        $is_valid = false;
+    }
+
+    if (empty($due)) {
+        echo "Due date cannot be empty<br>";
+        $is_valid = false;
+    }
+
+    if (!empty($due)) {
+        $date_parts = explode("-", $due);
+        if (count($date_parts) !== 3 || !checkdate((int)$date_parts[1], (int)$date_parts[2], (int)$date_parts[0])) {
+            echo "Due date must be a valid date<br>";
+            $is_valid = false;
+        }
+    }
+
+    if (empty(trim($assigned))) {
+        echo "Assigned cannot be empty<br>";
+        $is_valid = false;
+    }
+
     // End validations
 
     
@@ -30,18 +54,23 @@ if (empty($diff)) {
         Ensure valid and proper PDO named placeholders are used.
         https://phpdelusions.net/pdo
         */
-        $query = ""; // edit this
-        $params = []; // Apply the proper PDO placeholder to variable mapping here
-        try {
-            $db = getDB();
-            $stmt = $db->prepare($query);
-            $r = $stmt->execute($params);
-            if ($r) {
-                echo "Inserted new Todo with id " . $db->lastInsertId();
-            } else {
-                echo "Failed to insert";
-            }
-        } catch (PDOException $e) {
+    $query = "INSERT INTO M4_Todos (task, due, assigned) VALUES (:task, :due, :assigned)";
+    $params = [
+        ":task" => $task,
+        ":due" => $due,
+        ":assigned" => $assigned
+    ];
+
+    try {
+        $db = getDB();
+        $stmt = $db->prepare($query);
+        $r = $stmt->execute($params);
+        if ($r) {
+            echo "Inserted new Todo with id " . $db->lastInsertId();
+        } else {
+            echo "Failed to insert";
+        }
+    } catch (PDOException $e) {
             // extra credit
             // check if the exception was related to a unique constraint
             // provide an appropriate user-friendly message for this scenario
@@ -63,17 +92,17 @@ if (empty($diff)) {
         <form>
     <div>
         <label for="task">Task</label>
-        <input type="text" id="task" name="task" required>
+        <input type="text" id="task" name="task">
     </div>
 
     <div>
         <label for="due">Due Date</label>
-        <input type="date" id="due" name="due" required>
+        <input type="date" id="due" name="due">
     </div>
-,
+
     <div>
         <label for="assigned">Assigned</label>
-        <input type="text" id="assigned" name="assigned" value="self" required>
+        <input type="text" id="assigned" name="assigned" value="self">
     </div>
 
     <div>
