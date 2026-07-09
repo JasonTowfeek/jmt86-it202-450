@@ -3,7 +3,7 @@
 // @ts-nocheck
 require_once(__DIR__ . "/base.php");
 
-$ucid = "YOUR_UCID_HERE"; // <-- set your UCID
+$ucid = "jmt86"; // <-- set your UCID
 
 // Don't edit the arrays below, they are used to test your code.
 $a1 = [
@@ -42,7 +42,17 @@ function processBirds($birds, $arrayNumber) {
 
     $subset = [];
     // Start Solution Edits
+    // UCID: jmt86
+    // Date: 07/09/2026
+    // Plan: Loop through the birds parameter and copy only the name, color, and region fields into $subset.
 
+    foreach ($birds as $bird) {
+        $subset[] = [
+            "name" => $bird["name"],
+            "color" => $bird["color"],
+            "region" => $bird["region"]
+        ];
+    }
     // End Solution Edits
     printProblemOutput("Subset output:", $subset);
     echo "</div>";
