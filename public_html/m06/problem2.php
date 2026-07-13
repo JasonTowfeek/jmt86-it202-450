@@ -3,7 +3,7 @@
 // @ts-nocheck
 require_once(__DIR__ . "/base.php");
 
-$ucid = "YOUR_UCID_HERE"; // <-- set your UCID
+$ucid = "jmt86"; // <-- set your UCID
 
 // Don't edit the arrays below, they are used to test your code.
 $a1 = [
@@ -46,7 +46,24 @@ function processCars($cars, $arrayNumber) {
     $processedCars = [];
     $classic_age = 25;
     // Start Solution Edits
+    // UCID: jmt86
+    // Date: 07/09/2026
+    // Plan: Use the current year, loop through each car, keep the original fields, then add age and isClassic.
 
+    $currentYear = (int)date("Y");
+
+    foreach ($cars as $car) {
+        $age = $currentYear - $car["year"];
+
+        $processedCars[] = [
+            "id" => $car["id"],
+            "make" => $car["make"],
+            "model" => $car["model"],
+            "year" => $car["year"],
+            "age" => $age,
+            "isClassic" => $age >= $classic_age
+        ];
+    }
     // End Solution Edits
     printProblemOutput("New properties output:", $processedCars);
     echo "</div>";
