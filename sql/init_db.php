@@ -126,12 +126,17 @@ try {
     if (!empty($valid_sql)) {
         ksort($valid_sql);
 
-        // Pull current table names from DB
-        $db = getDB();
-        $stmt = $db->prepare("show tables");
-        $stmt->execute();
-        $count++;
-        $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
+       // Pull current PostgreSQL table names from the public schema
+    $db = getDB();
+    $stmt = $db->prepare("
+        SELECT table_name
+        FROM information_schema.tables
+        WHERE table_schema = 'public'
+        AND table_type = 'BASE TABLE'
+    ");
+    $stmt->execute();
+    $count++;
+    $tables = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         // Flatten the tables array for easy lookup
         foreach ($tables as $row) {
