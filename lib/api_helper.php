@@ -66,10 +66,19 @@ function api_request(string $url, string $method, array $data = [], array $optio
     }
 
     $curl_options = [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT => 15,
-        CURLOPT_HTTPHEADER => $headers,
-    ];
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 15,
+    CURLOPT_HTTPHEADER => $headers,
+];
+
+// On Windows, also use the trusted certificates installed in Windows.
+if (
+    PHP_OS_FAMILY === "Windows"
+    && defined("CURLOPT_SSL_OPTIONS")
+    && defined("CURLSSLOPT_NATIVE_CA")
+) {
+    $curl_options[CURLOPT_SSL_OPTIONS] = CURLSSLOPT_NATIVE_CA;
+}
     if ($method === "POST") {
         $curl_options[CURLOPT_POST] = true;
         $curl_options[CURLOPT_POSTFIELDS] = http_build_query($data);
