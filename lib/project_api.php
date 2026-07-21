@@ -3,7 +3,9 @@
 // Date: 07/18/2026
 // Project API wrapper for the Open Library Search API.
 
-function get_open_library_books(string $searchTerm): array
+require_once(__DIR__ . "/api_helper.php");
+
+function get_open_library_books(string $searchTerm, bool $useCached = false): array
 {
     $searchTerm = trim($searchTerm);
 
@@ -15,28 +17,23 @@ function get_open_library_books(string $searchTerm): array
         ];
     }
 
-    $url = "https://openlibrary.org/search.json?q=" . urlencode($searchTerm) . "&limit=10";
+    $errors = [];
 
-    $response = @file_get_contents($url);
-
-    if ($response === false) {
-        error_log("Open Library API request failed.");
-
-        return [
-            "success" => false,
-            "message" => "The book service is currently unavailable.",
-            "books" => []
-        ];
+    if ($useCached) {
+        $result = api_sample_response("project-api-sample.json");
+    } else {
+        $result = api_get("https://openlibrary.org/search.json", [
+            "q" => $searchTerm,
+            "limit" => 10
+        ]);
     }
 
-    $data = json_decode($response, true);
+    $data = decode_api_response($result, "docs", $errors);
 
-    if (!is_array($data) || !isset($data["docs"]) || !is_array($data["docs"])) {
-        error_log("Open Library API returned an unexpected response.");
-
+    if ($data === null) {
         return [
             "success" => false,
-            "message" => "The book service returned invalid data.",
+            "message" => $errors[0] ?? "The book service returned invalid data.",
             "books" => []
         ];
     }
