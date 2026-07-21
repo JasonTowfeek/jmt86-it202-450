@@ -111,4 +111,29 @@ if (isset($_POST["email"], $_POST["password"], $_POST["confirm_password"])) {
     </script>
 </body>
 
+
 </html>
+
+<form method="POST" onsubmit="return validate();">
+
+Username:
+<input
+    type="text"
+    name="username"
+    pattern="[A-Za-z0-9_]{3,30}"
+    value="<?= htmlspecialchars($username ?? '') ?>">
+
+Email:
+<input
+    type="email"
+    name="email"
+    value="<?= htmlspecialchars($email ?? '') ?>">
+
+Password:
+<input type="password" name="password">
+
+Confirm Password:
+<input type="password" name="confirm_password">
+
+<input type="submit" value="Register">
+</form>
