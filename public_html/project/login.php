@@ -1,4 +1,7 @@
 <?php
+// UCID: mp2446
+// Date: 07/26/2026
+// Login page. Updated to also load and store the user's role in session.
 require_once(__DIR__ . "/../../lib/app.php");
 
 $errors = [];
@@ -23,7 +26,7 @@ if (isset($_POST["email"], $_POST["password"])) {
         try {
             $db = getDB();
             $stmt = $db->prepare(
-                "SELECT id AS user_id, email, password_hash
+                "SELECT id AS user_id, email, password_hash, role
                  FROM Users
                  WHERE email = :email
                  LIMIT 1"
@@ -36,11 +39,6 @@ if (isset($_POST["email"], $_POST["password"])) {
         }
     }
 
-    /*if (empty($errors) && !$user) {
-        $errors[] = "Email not found.";
-    } elseif (empty($errors) && !password_verify($password, $user["password_hash"])) {
-        $errors[] = "Invalid password.";
-    }*/
     if (
         empty($errors)
         && (!$user || !password_verify($password, $user["password_hash"]))
@@ -53,6 +51,7 @@ if (isset($_POST["email"], $_POST["password"])) {
         $user["user_id"] = (int) $user["user_id"];
         unset($user["password_hash"]);
         $_SESSION["user"] = $user;
+        flash_set("Welcome back!", "success");
         header("Location: dashboard.php");
         exit;
     }
