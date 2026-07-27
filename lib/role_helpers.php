@@ -2,38 +2,43 @@
 /**
  * Gets active role names for a user.
  *
- * @param int $user_id User id from the Users table.
+ * @param int $user_id User id from the users table.
  * @return array Active role names such as ["Admin"].
  */
 function get_user_roles(int $user_id): array
 {
     try {
         $db = getDB();
+
         $stmt = $db->prepare(
-            "SELECT Roles.name
-             FROM Roles
-             JOIN UserRoles ON Roles.id = UserRoles.role_id
-             WHERE UserRoles.user_id = :user_id
-               AND Roles.is_active = 1
-               AND UserRoles.is_active = 1
-             ORDER BY Roles.name"
+            "SELECT roles.name
+             FROM roles
+             JOIN userroles ON roles.id = userroles.role_id
+             WHERE userroles.user_id = :user_id
+               AND roles.is_active = TRUE
+               AND userroles.is_active = TRUE
+             ORDER BY roles.name"
         );
-        $stmt->execute([":user_id" => $user_id]);
+
+        $stmt->execute([
+            ":user_id" => $user_id
+        ]);
+
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-        // Extract only the name value from each database row.
+
         return array_column($rows, "name");
     } catch (PDOException $e) {
         error_log("Role lookup failed: " . $e->getMessage());
-        flash("Permissions failed to load. Please try logging in again.", "warning");
+        flash(
+            "Permissions failed to load. Please try logging in again.",
+            "warning"
+        );
         return [];
     }
 }
 
 /**
  * Checks whether the logged-in user has a role.
- *
- * @param string $role Role name to check.
- * @return bool True when the role exists in the current session.
  */
 function has_role(string $role): bool
 {
@@ -42,15 +47,12 @@ function has_role(string $role): bool
     }
 
     $roles = $_SESSION["user"]["roles"] ?? [];
-    // in_array() checks whether the requested role appears in the role list.
+
     return in_array($role, $roles, true);
 }
 
 /**
- * Redirects away from a page unless the logged-in user has a role.
- *
- * @param string $role Required role name.
- * @return void
+ * Redirects unless the logged-in user has the required role.
  */
 function require_role(string $role): void
 {
@@ -61,9 +63,11 @@ function require_role(string $role): void
     }
 
     if (!has_role($role)) {
-        flash("You do not have permission to view that page.", "danger");
+        flash(
+            "You do not have permission to view that page.",
+            "danger"
+        );
         header("Location: " . project_url("dashboard.php"));
         exit;
     }
 }
-?>
