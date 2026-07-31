@@ -1,8 +1,7 @@
 <?php
 // UCID: mp2446
-// Date: 07/26/2026
-// Public detail page for one book. The requested ID is validated before
-// querying the database. Admin-only edit and delete controls are conditional.
+// Date: 07/30/2026
+// Public detail page for one book with logged-in user association controls.
 
 require_once(__DIR__ . "/../../lib/app.php");
 
@@ -15,6 +14,7 @@ if ($id === null) {
 
 $book = null;
 $isAdmin = is_admin();
+$isInMyBooks = false;
 
 try {
     $db = getDB();
@@ -39,6 +39,36 @@ try {
     $stmt->execute();
 
     $book = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($book && is_logged_in()) {
+        $user = current_user();
+        $userId = (int) $user["id"];
+
+        $associationStmt = $db->prepare(
+            "SELECT id
+             FROM UserBooks
+             WHERE user_id = :user_id
+             AND book_id = :book_id
+             LIMIT 1"
+        );
+
+        $associationStmt->bindValue(
+            ":user_id",
+            $userId,
+            PDO::PARAM_INT
+        );
+
+        $associationStmt->bindValue(
+            ":book_id",
+            $id,
+            PDO::PARAM_INT
+        );
+
+        $associationStmt->execute();
+
+        $isInMyBooks =
+            (bool) $associationStmt->fetch(PDO::FETCH_ASSOC);
+    }
 } catch (PDOException $e) {
     error_log(
         "Book detail query failed for UCID mp2446: " .
@@ -134,9 +164,60 @@ if (!$book) {
             <?php echo htmlspecialchars($book["modified"]); ?>
         </p>
 
+        <?php if (is_logged_in()): ?>
+            <section>
+                <h2>My Book List</h2>
+
+                <form
+                    method="post"
+                    action="user-book-action.php"
+                >
+                    <input
+                        type="hidden"
+                        name="book_id"
+                        value="<?php echo (int) $book["id"]; ?>"
+                    >
+
+                    <?php if ($isInMyBooks): ?>
+                        <input
+                            type="hidden"
+                            name="action"
+                            value="remove"
+                        >
+
+                        <p>
+                            This book is currently in your list.
+                        </p>
+
+                        <button type="submit">
+                            Remove from My Books
+                        </button>
+                    <?php else: ?>
+                        <input
+                            type="hidden"
+                            name="action"
+                            value="add"
+                        >
+
+                        <button type="submit">
+                            Add to My Books
+                        </button>
+                    <?php endif; ?>
+                </form>
+            </section>
+        <?php else: ?>
+            <p>
+                <a href="login.php">
+                    Log in to add this book to your list.
+                </a>
+            </p>
+        <?php endif; ?>
+
         <?php if ($isAdmin): ?>
             <p>
-                <a href="books-edit.php?id=<?php echo (int) $book["id"]; ?>">
+                <a href="books-edit.php?id=<?php
+                    echo (int) $book["id"];
+                ?>">
                     Edit
                 </a>
             </p>
