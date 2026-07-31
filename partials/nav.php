@@ -1,7 +1,7 @@
 <?php
 // UCID: mp2446
 // Date: 07/30/2026
-// Shared navigation with links based on login status.
+// Shared navigation with public and login-based links.
 
 $isLoggedIn = is_logged_in();
 ?>
@@ -13,6 +13,10 @@ $isLoggedIn = is_logged_in();
 
     <a href="/project/books.php">
         Books
+    </a>
+
+    <a href="/project/users.php">
+        Users
     </a>
 
     <?php if ($isLoggedIn): ?>
