@@ -1,6 +1,6 @@
 <?php
-// jmt86 - 07/27/2026
-// Public list of meals without admin management controls.
+// jmt86 - 08/04/2026
+// Public meal list with filters and a Save Meal option for logged-in users.
 
 require_once(__DIR__ . "/../../lib/app.php");
 
@@ -115,8 +115,13 @@ flash_errors($errors);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Meals</title>
-    <link rel="stylesheet" href="<?php echo project_url("styles.css"); ?>">
+
+    <link
+        rel="stylesheet"
+        href="<?php echo project_url("styles.css"); ?>"
+    >
 </head>
 
 <body>
@@ -127,6 +132,7 @@ flash_errors($errors);
 
         <form method="get">
             <label for="search">Search</label>
+
             <input
                 id="search"
                 name="search"
@@ -135,40 +141,64 @@ flash_errors($errors);
             >
 
             <label for="source">Source</label>
+
             <select id="source" name="source">
-                <option value="" <?php if ($source === "") echo "selected"; ?>>
+                <option
+                    value=""
+                    <?php if ($source === "") echo "selected"; ?>
+                >
                     All
                 </option>
 
-                <option value="api" <?php if ($source === "api") echo "selected"; ?>>
+                <option
+                    value="api"
+                    <?php if ($source === "api") echo "selected"; ?>
+                >
                     API
                 </option>
 
-                <option value="manual" <?php if ($source === "manual") echo "selected"; ?>>
+                <option
+                    value="manual"
+                    <?php if ($source === "manual") echo "selected"; ?>
+                >
                     Manual
                 </option>
             </select>
 
             <label for="sort">Sort</label>
+
             <select id="sort" name="sort">
-                <option value="newest" <?php if ($sort === "newest") echo "selected"; ?>>
+                <option
+                    value="newest"
+                    <?php if ($sort === "newest") echo "selected"; ?>
+                >
                     Newest
                 </option>
 
-                <option value="oldest" <?php if ($sort === "oldest") echo "selected"; ?>>
+                <option
+                    value="oldest"
+                    <?php if ($sort === "oldest") echo "selected"; ?>
+                >
                     Oldest
                 </option>
 
-                <option value="name_asc" <?php if ($sort === "name_asc") echo "selected"; ?>>
+                <option
+                    value="name_asc"
+                    <?php if ($sort === "name_asc") echo "selected"; ?>
+                >
                     Name A-Z
                 </option>
 
-                <option value="name_desc" <?php if ($sort === "name_desc") echo "selected"; ?>>
+                <option
+                    value="name_desc"
+                    <?php if ($sort === "name_desc") echo "selected"; ?>
+                >
                     Name Z-A
                 </option>
             </select>
 
             <label for="limit">Limit</label>
+
             <input
                 id="limit"
                 name="limit"
@@ -182,10 +212,15 @@ flash_errors($errors);
         </form>
 
         <?php if (empty($meals)): ?>
+
             <p>No meals matched your filters.</p>
+
         <?php else: ?>
+
             <div class="meal-list">
+
                 <?php foreach ($meals as $meal): ?>
+
                     <article>
                         <h2>
                             <a
@@ -196,35 +231,91 @@ flash_errors($errors);
                                     );
                                 ?>"
                             >
-                                <?php echo htmlspecialchars($meal["meal_name"]); ?>
+                                <?php
+                                    echo htmlspecialchars(
+                                        $meal["meal_name"]
+                                    );
+                                ?>
                             </a>
                         </h2>
 
                         <?php if (!empty($meal["image_url"])): ?>
+
                             <img
-                                src="<?php echo htmlspecialchars($meal["image_url"]); ?>"
-                                alt="<?php echo htmlspecialchars($meal["meal_name"]); ?>"
+                                src="<?php
+                                    echo htmlspecialchars(
+                                        $meal["image_url"]
+                                    );
+                                ?>"
+                                alt="<?php
+                                    echo htmlspecialchars(
+                                        $meal["meal_name"]
+                                    );
+                                ?>"
                                 width="200"
                             >
+
                         <?php endif; ?>
 
                         <p>
                             <strong>Category:</strong>
-                            <?php echo htmlspecialchars($meal["category"]); ?>
+
+                            <?php
+                                echo htmlspecialchars(
+                                    $meal["category"]
+                                );
+                            ?>
                         </p>
 
                         <p>
                             <strong>Cuisine:</strong>
-                            <?php echo htmlspecialchars($meal["cuisine"]); ?>
+
+                            <?php
+                                echo htmlspecialchars(
+                                    $meal["cuisine"]
+                                );
+                            ?>
                         </p>
 
                         <p>
                             <strong>Source:</strong>
-                            <?php echo $meal["is_api"] ? "API" : "Manual"; ?>
+
+                            <?php
+                                echo $meal["is_api"]
+                                    ? "API"
+                                    : "Manual";
+                            ?>
                         </p>
+
+                        <?php if (is_logged_in()): ?>
+
+                            <form
+                                method="post"
+                                action="<?php
+                                    echo project_url("save_meal.php");
+                                ?>"
+                            >
+                                <input
+                                    type="hidden"
+                                    name="meal_id"
+                                    value="<?php
+                                        echo (int)$meal["id"];
+                                    ?>"
+                                >
+
+                                <button type="submit">
+                                    Save Meal
+                                </button>
+                            </form>
+
+                        <?php endif; ?>
+
                     </article>
+
                 <?php endforeach; ?>
+
             </div>
+
         <?php endif; ?>
     </main>
 
