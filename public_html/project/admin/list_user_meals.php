@@ -1,5 +1,5 @@
 <?php
-// jmt86 - 08/04/2026
+// jmt86 - 08/05/2026
 // Admin page showing all user-to-meal associations.
 
 require_once(__DIR__ . "/../../../lib/app.php");
@@ -88,6 +88,7 @@ flash_errors($errors);
                         <th>Cuisine</th>
                         <th>Source</th>
                         <th>Saved</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
 
@@ -171,6 +172,29 @@ flash_errors($errors);
                                         $row["created"]
                                     );
                                 ?>
+                            </td>
+
+                            <td>
+                                <form
+                                    method="post"
+                                    action="<?php
+                                        echo project_url(
+                                            "admin/remove_user_meal.php"
+                                        );
+                                    ?>"
+                                >
+                                    <input
+                                        type="hidden"
+                                        name="usermeal_id"
+                                        value="<?php
+                                            echo (int)$row["usermeal_id"];
+                                        ?>"
+                                    >
+
+                                    <button type="submit">
+                                        Remove Association
+                                    </button>
+                                </form>
                             </td>
                         </tr>
 
