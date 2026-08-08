@@ -112,7 +112,7 @@ try {
 } catch (PDOException $e) {
     error_log(
         "User book action failed for UCID mp2446: " .
-        $e->getMessage()
+            $e->getMessage()
     );
 
     flash_set(
