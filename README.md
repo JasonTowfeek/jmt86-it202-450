@@ -2,15 +2,15 @@
 
 ## Student Information
 
-- Name: 
+- Name: Jason Towfeek
 - Course: IT202
-- Semester: 
-- Year:
-- Instructor: 
+- Semester: Summer
+- Year: 2026
+- Instructor: Matt Toegel
 
 ## About This Repository
 
-Use this space to describe what this repository is for.
+This repository contains my IT202 coursework, module assignments, shared PHP files, database work, and final course project.
 
 ## Folder Overview
 
@@ -21,28 +21,30 @@ Use this space to describe what this repository is for.
 
 ## Module Work
 
-Use this section to briefly summarize what you completed in each module.
+This repository includes work completed throughout the IT202 course.
 
-- `m01`: 
-- `m02`: 
-- `m03`: 
-- `m04`: 
-- `m05`: 
-- `m06`: 
-- `m07`: 
-- `m08`: 
-- `m09`: 
-- `m10`: 
+- `m01`: Introductory course work
+- `m02`: PHP and basic programming work
+- `m03`: Forms and data handling
+- `m04`: Database work
+- `m05`: PHP and database integration
+- `m06`: Sessions and authentication
+- `m07`: User accounts and roles
+- `m08`: API and project development
+- `m09`: Project development
+- `m10`: Final project and deployment
 
 ## Project
 
-Use this section to describe your course project.
-
-- Project title: 
-- Goal: 
-- Main features: 
-- Current status: 
+- Project title: Jason's Meal Project
+- Goal: Create a meal management website where users can browse meals, save meals, and manage their accounts.
+- Main features: Registration, login, profiles, meal search, TheMealDB API, saved meals, user-meal relationships, admin meal management, role-based access, public profiles, and assignment tools.
+- Current status: Complete and deployed to production on Render.
 
 ## Notes
 
-Add any reminders, links, resources, or setup notes that are useful for you.
+Final production website:
+https://jmt86-it202-450-prod.onrender.com/project/
+
+Final demo:
+https://youtu.be/oYURBS-pqsw
